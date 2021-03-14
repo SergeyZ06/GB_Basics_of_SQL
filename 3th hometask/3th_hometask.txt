@@ -1,0 +1,62 @@
+CREATE TABLE IF NOT EXISTS `vk`.`like_user` (
+  `user_id` INT(10) UNSIGNED NOT NULL,
+  `target_user_id` INT(10) UNSIGNED NOT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT NOW(),
+  INDEX `fk_like_user_user1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_like_user_user2_idx` (`target_user_id` ASC) VISIBLE,
+  PRIMARY KEY (`user_id`, `target_user_id`),
+  CONSTRAINT `fk_like_user_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `vk`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_like_user_user2`
+    FOREIGN KEY (`target_user_id`)
+    REFERENCES `vk`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `vk`.`like_media` (
+  `user_id` INT(10) UNSIGNED NOT NULL,
+  `media_id` INT(10) UNSIGNED NOT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT NOW(),
+  INDEX `fk_like_media_user1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_like_media_media1_idx` (`media_id` ASC) VISIBLE,
+  PRIMARY KEY (`user_id`, `media_id`),
+  CONSTRAINT `fk_like_media_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `vk`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_like_media_media1`
+    FOREIGN KEY (`media_id`)
+    REFERENCES `vk`.`media` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `vk`.`like_post` (
+  `user_id` INT(10) UNSIGNED NOT NULL,
+  `post_id` INT(10) UNSIGNED NOT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT NOW(),
+  INDEX `fk_like_post_user1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_like_post_post1_idx` (`post_id` ASC) VISIBLE,
+  PRIMARY KEY (`user_id`, `post_id`),
+  CONSTRAINT `fk_like_post_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `vk`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_like_post_post1`
+    FOREIGN KEY (`post_id`)
+    REFERENCES `vk`.`post` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
