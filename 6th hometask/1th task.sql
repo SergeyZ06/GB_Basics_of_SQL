@@ -26,3 +26,20 @@ WHERE
 -- Сортировка пользователей по убыванию кол-ва их сообщений
 ORDER BY amount_of_messages DESC
 LIMIT 1;
+
+-- Решение с использованием JOIN
+
+SELECT
+	IF(fr.user_id = @USER_ID, fr.target_user_id, fr.user_id) AS user_friend_id,
+    COUNT(*) AS amount_of_messages
+FROM friend_request AS fr
+	INNER JOIN message AS m
+		ON (m.from_user_id = fr.user_id AND m.to_user_id = fr.target_user_id)
+		OR (m.to_user_id = fr.user_id AND m.from_user_id = fr.target_user_id)
+WHERE
+	(fr.user_id = @USER_ID OR fr.target_user_id = @USER_ID)
+    AND
+	fr.status = 1
+GROUP BY IF(fr.user_id = @USER_ID, fr.target_user_id, fr.user_id)
+ORDER BY amount_of_messages DESC
+LIMIT 1;

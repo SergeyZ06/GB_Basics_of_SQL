@@ -9,20 +9,18 @@ WITH t1 AS (
 	LIMIT 10
 	)
 
-SELECT COUNT(total_list_of_likes.user_id) AS total_amount_of_likes
+SELECT COUNT(*) AS total_amount_of_likes
+FROM like_user AS lu
+WHERE lu.target_user_id IN (SELECT * FROM t1);
+
+-- Решение с использованием JOIN
+
+SELECT COUNT(t1.target_user_id) AS total_amount_likes
 FROM (
-	-- Поскольку данные о лайках хранятся в разных таблицах,
-    -- необходимо получить полный список лайков.
-	SELECT m.user_id
-	FROM like_media AS m
-    -- Учитывать лайки только от десяти самых молодых пользователей.
-	WHERE m.user_id IN (SELECT * FROM t1)
-	UNION ALL
-	SELECT p.user_id
-	FROM like_post AS p
-	WHERE p.user_id IN (SELECT * FROM t1)
-	UNION ALL
-	SELECT u.user_id
-	FROM like_user AS u
-	WHERE u.user_id IN (SELECT * FROM t1)
-	) total_list_of_likes;
+	SELECT
+		DENSE_RANK() OVER(ORDER BY p.birth_date DESC) AS dr,
+		lu.target_user_id
+	FROM profile AS p
+		LEFT JOIN like_user AS lu ON lu.target_user_id = p.user_id
+	) AS t1
+WHERE t1.dr <= 10;

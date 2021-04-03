@@ -23,3 +23,20 @@ HAVING
 -- Сортировка групп пользователей по убыванию кол-ва их лайков
 ORDER BY total_amount_of_likes DESC
 LIMIT 1;
+
+-- Решение с использованием JOIN
+
+SELECT
+	p.gender,
+	COUNT(DISTINCT p.user_id, lm.media_id) +
+    COUNT(DISTINCT p.user_id, lp.post_id) +
+    COUNT(DISTINCT p.user_id, lu.target_user_id)
+    AS total_amount_of_likes
+FROM profile AS p
+	LEFT JOIN like_media AS lm ON lm.user_id = p.user_id
+    LEFT JOIN like_post AS lp ON lp.user_id = p.user_id
+    LEFT JOIN like_user AS lu ON lu.user_id = p.user_id
+WHERE p.gender <> 'x'
+GROUP BY p.gender
+ORDER BY total_amount_of_likes DESC
+LIMIT 1;

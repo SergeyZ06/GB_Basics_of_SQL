@@ -18,3 +18,25 @@ FROM user AS u
 -- Сортировка пользователей по возрастанию коэффициента их активности
 ORDER BY grade_of_activity ASC
 LIMIT 10;
+
+-- Решение с использованием JOIN
+
+SELECT
+	u.id,
+    COUNT(DISTINCT lm.user_id, lm.media_id) * 1 +
+    COUNT(DISTINCT lp.user_id, lp.post_id) * 1 +
+    COUNT(DISTINCT lu.user_id, lu.target_user_id) * 1 +
+    COUNT(DISTINCT m.id) * 10 +
+    COUNT(DISTINCT fr.user_id, fr.target_user_id) * 20 +
+    COUNT(DISTINCT p.id) * 50
+    AS grade_of_activity
+FROM user AS u
+	LEFT JOIN like_media AS lm ON lm.user_id = u.id
+    LEFT JOIN like_post AS lp ON lp.user_id = u.id
+    LEFT JOIN like_user AS lu ON lu.user_id = u.id
+    LEFT JOIN message AS m ON m.from_user_id = u.id
+	LEFT JOIN friend_request AS fr ON fr.user_id = u.id
+    LEFT JOIN post AS p ON p.user_id = u.id
+GROUP BY u.id
+ORDER BY grade_of_activity ASC
+LIMIT 10;
