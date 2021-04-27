@@ -1,0 +1,16 @@
+-- 2. При помощи базы данных Redis решите задачу поиска имени пользователя по электронному адресу и наоборот, поиск электронного адреса пользователя по его имени.
+
+> SET oleg oleg@mail.ru
+OK
+> GET oleg
+"oleg@mail.ru"
+> SET ivan invan@mail.ru
+OK
+> GET ivan
+"invan@mail.ru"
+> SET petr petr@mail.ru
+OK
+> GET petr
+"petr@mail.ru"
+> KEYS ivan*
+1) "ivan"
