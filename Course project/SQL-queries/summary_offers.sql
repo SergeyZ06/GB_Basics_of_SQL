@@ -33,4 +33,3 @@ GROUP BY
 	type,
     od.id_offer_debit,
     od.name;
-    
