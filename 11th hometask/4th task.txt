@@ -14,3 +14,7 @@ OK
 "petr@mail.ru"
 > KEYS ivan*
 1) "ivan"
+> SET oleg@mail.ru oleg
+OK
+> GET oleg@mail.ru
+"oleg"

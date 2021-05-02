@@ -1,0 +1,218 @@
+-- 3. Организуйте хранение категорий и товарных позиций учебной базы данных shop в СУБД MongoDB.
+
+Configuration
+
+db={
+  "catalogs": [
+    {
+      "_id": 1,
+      "name": "CPU"
+    },
+    {
+      "_id": 2,
+      "name": "Motherboard"
+    },
+    {
+      "_id": 3,
+      "name": "3D accelerator"
+    },
+    {
+      "_id": 4,
+      "name": "HDD"
+    },
+    {
+      "_id": 5,
+      "name": "RAM"
+    }
+  ],
+  "products": [
+    {
+      "_id": 1,
+      "name": "Intel Core i3-8100",
+      "description": "Процессор для настольных персональных компьютеров, основанных на платформе Intel.",
+      "price": 7890.00,
+      "catalog_id": 1,
+      "created_at": "2021-03-28 20:24:57",
+      "updated_at": "2021-03-28 20:24:57"
+    },
+    {
+      "_id": 2,
+      "name": "Intel Core i5-7400",
+      "description": "Процессор для настольных персональных компьютеров, основанных на платформе Intel.",
+      "price": 12700.00,
+      "catalog_id": 1,
+      "created_at": "2021-03-28 20:24:57",
+      "updated_at": "2021-03-28 20:24:57"
+    },
+    {
+      "_id": 3,
+      "name": "AMD FX-8320E",
+      "description": "Процессор для настольных персональных компьютеров, основанных на платформе AMD.",
+      "price": 4780.00,
+      "catalog_id": 1,
+      "created_at": "2021-03-28 20:24:57",
+      "updated_at": "2021-03-28 20:24:57"
+    },
+    {
+      "_id": 4,
+      "name": "AMD FX-8320",
+      "description": "Процессор для настольных персональных компьютеров, основанных на платформе AMD.",
+      "price": 7120.00,
+      "catalog_id": 1,
+      "created_at": "2021-03-28 20:24:57",
+      "updated_at": "2021-03-28 20:24:57"
+    },
+    {
+      "_id": 5,
+      "name": "ASUS ROG MAXIMUS X HERO",
+      "description": "Материнская плата ASUS ROG MAXIMUS X HERO, Z370, Socket 1151-V2, DDR4, ATX",
+      "price": 19310.00,
+      "catalog_id": 2,
+      "created_at": "2021-03-28 20:24:57",
+      "updated_at": "2021-03-28 20:24:57"
+    },
+    {
+      "_id": 6,
+      "name": "Gigabyte H310M S2H",
+      "description": "Материнская плата Gigabyte H310M S2H, H310, Socket 1151-V2, DDR4, mATX",
+      "price": 4790.00,
+      "catalog_id": 2,
+      "created_at": "2021-03-28 20:24:57",
+      "updated_at": "2021-03-28 20:24:57"
+    },
+    {
+      "_id": 7,
+      "name": "MSI B250M GAMING PRO",
+      "description": "Материнская плата MSI B250M GAMING PRO, B250, Socket 1151, DDR4, mATX",
+      "price": 5060.00,
+      "catalog_id": 2,
+      "created_at": "2021-03-28 20:24:57",
+      "updated_at": "2021-03-28 20:24:57"
+    }
+  ]
+}
+
+
+Query
+
+db.products.aggregate([
+  {
+    "$lookup": {
+      "from": "catalogs",
+      "localField": "catalog_id",
+      "foreignField": "_id",
+      "as": "catalog"
+    }
+  }
+])
+
+
+Result
+
+[
+  {
+    "_id": 1,
+    "catalog": [
+      {
+        "_id": 1,
+        "name": "CPU"
+      }
+    ],
+    "catalog_id": 1,
+    "created_at": "2021-03-28 20:24:57",
+    "description": "Процессор для настольных персональных компьютеров, основанных на платформе Intel.",
+    "name": "Intel Core i3-8100",
+    "price": 7890,
+    "updated_at": "2021-03-28 20:24:57"
+  },
+  {
+    "_id": 2,
+    "catalog": [
+      {
+        "_id": 1,
+        "name": "CPU"
+      }
+    ],
+    "catalog_id": 1,
+    "created_at": "2021-03-28 20:24:57",
+    "description": "Процессор для настольных персональных компьютеров, основанных на платформе Intel.",
+    "name": "Intel Core i5-7400",
+    "price": 12700,
+    "updated_at": "2021-03-28 20:24:57"
+  },
+  {
+    "_id": 3,
+    "catalog": [
+      {
+        "_id": 1,
+        "name": "CPU"
+      }
+    ],
+    "catalog_id": 1,
+    "created_at": "2021-03-28 20:24:57",
+    "description": "Процессор для настольных персональных компьютеров, основанных на платформе AMD.",
+    "name": "AMD FX-8320E",
+    "price": 4780,
+    "updated_at": "2021-03-28 20:24:57"
+  },
+  {
+    "_id": 4,
+    "catalog": [
+      {
+        "_id": 1,
+        "name": "CPU"
+      }
+    ],
+    "catalog_id": 1,
+    "created_at": "2021-03-28 20:24:57",
+    "description": "Процессор для настольных персональных компьютеров, основанных на платформе AMD.",
+    "name": "AMD FX-8320",
+    "price": 7120,
+    "updated_at": "2021-03-28 20:24:57"
+  },
+  {
+    "_id": 5,
+    "catalog": [
+      {
+        "_id": 2,
+        "name": "Motherboard"
+      }
+    ],
+    "catalog_id": 2,
+    "created_at": "2021-03-28 20:24:57",
+    "description": "Материнская плата ASUS ROG MAXIMUS X HERO, Z370, Socket 1151-V2, DDR4, ATX",
+    "name": "ASUS ROG MAXIMUS X HERO",
+    "price": 19310,
+    "updated_at": "2021-03-28 20:24:57"
+  },
+  {
+    "_id": 6,
+    "catalog": [
+      {
+        "_id": 2,
+        "name": "Motherboard"
+      }
+    ],
+    "catalog_id": 2,
+    "created_at": "2021-03-28 20:24:57",
+    "description": "Материнская плата Gigabyte H310M S2H, H310, Socket 1151-V2, DDR4, mATX",
+    "name": "Gigabyte H310M S2H",
+    "price": 4790,
+    "updated_at": "2021-03-28 20:24:57"
+  },
+  {
+    "_id": 7,
+    "catalog": [
+      {
+        "_id": 2,
+        "name": "Motherboard"
+      }
+    ],
+    "catalog_id": 2,
+    "created_at": "2021-03-28 20:24:57",
+    "description": "Материнская плата MSI B250M GAMING PRO, B250, Socket 1151, DDR4, mATX",
+    "name": "MSI B250M GAMING PRO",
+    "price": 5060,
+    "updated_at": "2021-03-28 20:24:57"
+  }
+]
