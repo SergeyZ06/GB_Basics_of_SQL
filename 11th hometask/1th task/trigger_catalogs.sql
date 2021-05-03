@@ -1,4 +1,4 @@
-CREATE DEFINER=`SergeyZ06`@`%` TRIGGER `catalogs_BEFORE_INSERT` BEFORE INSERT ON `catalogs` FOR EACH ROW BEGIN
+CREATE DEFINER=`SergeyZ06`@`%` TRIGGER `catalogs_AFTER_INSERT` AFTER INSERT ON `catalogs` FOR EACH ROW BEGIN
 	INSERT INTO `shop`.`logs` (`table`, `primary_key`, `name`, `datetime`)
 		VALUES ('catalogs', 
 				(SELECT `AUTO_INCREMENT`
